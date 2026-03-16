@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Prajwal's Puzzle Hub</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+color:white;
+text-align:center;
+margin:0;
+padding:40px;
+
+background: linear-gradient(-45deg,#000000,#111111,#1a1a1a,#0a0a0a);
+background-size:400% 400%;
+animation: gradientMove 20s ease infinite;
+}
+
+h1{
+margin-bottom:10px;
+}
+
+.progress-container{
+width:300px;
+margin:20px auto 40px auto;
+}
+
+.progress-bar{
+height:12px;
+background:#333;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress-fill{
+height:100%;
+background:#4caf50;
+width:0%;
+transition:0.3s;
+}
+
+.progress-text{
+margin-top:8px;
+font-size:14px;
+color:#ccc;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,160px);
+gap:25px;
+justify-content:center;
+}
+
+.card{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+background:#111;
+padding:25px;
+border-radius:14px;
+
+border:1px solid #2a2a2a;
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+
+transition:0.25s;
+cursor:pointer;
+text-decoration:none;
+color:white;
+}
+
+.card:hover{
+transform:translateY(-6px);
+background:#181818;
+border-color:#444;
+}
+
+.logo{
+width:60px;
+height:60px;
+object-fit:contain;
+margin-bottom:10px;
+}
+
+.completed{
+background:#2e7d32;
+}
+
+@keyframes gradientMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Prajwal's Daily Puzzle Hub</h1>
+
+<div class="progress-container">
+
+<div class="progress-bar">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="progress-text" id="progressText">
+0 / 6 completed
+</div>
+
+</div>
+
+<div class="grid">
+
+<a class="card" data-game="wordle" onclick="markDone(this)" href="https://www.nytimes.com/games/wordle" target="_blank">
+<img class="logo" src="https://www.internetmatters.org/wp-content/uploads/2022/02/wordle-logo.webp">
+<span>Wordle</span>
+</a>
+
+<a class="card" data-game="connections" onclick="markDone(this)" href="https://www.nytimes.com/games/connections" target="_blank">
+<span style="font-size:32px;">🧩</span>
+<span>Connections</span>
+</a>
+
+<a class="card" data-game="strands" onclick="markDone(this)" href="https://www.nytimes.com/games/strands" target="_blank">
+<img class="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZQtVwpElkiFWTphKRpgJuYOJTGloxd7g6aw&s">
+<span>Strands</span>
+</a>
+
+<a class="card" data-game="songless" onclick="markDone(this)" href="https://lessgames.com/songless" target="_blank">
+<img class="logo" src="songless.png">
+<span>Songless</span>
+</a>
+
+<a class="card" data-game="higherlower" onclick="markDone(this)" href="https://lessgames.com/moreless" target="_blank">
+<img class="logo" src="moreorless.png">
+<span>More or Less</span>
+</a>
+
+<a class="card" data-game="angle" onclick="markDone(this)" href="https://angle.wtf" target="_blank">
+<img class="logo" src="https://angle.wtf/images/angle.svg">
+<span>Angle</span>
+</a>
+
+</div>
+
+<script>
+
+const today = new Date().toDateString();
+
+function markDone(card){
+
+let game = card.dataset.game;
+
+localStorage.setItem(game, today);
+
+card.classList.add("completed");
+
+updateProgress();
+
+}
+
+function loadProgress(){
+
+let cards = document.querySelectorAll(".card");
+
+cards.forEach(card => {
+
+let game = card.dataset.game;
+
+if(localStorage.getItem(game) === today){
+
+card.classList.add("completed");
+
+}
+
+});
+
+updateProgress();
+
+}
+
+function updateProgress(){
+
+let cards = document.querySelectorAll(".card");
+
+let total = cards.length;
+let completed = document.querySelectorAll(".completed").length;
+
+let percent = (completed/total)*100;
+
+document.getElementById("progressFill").style.width = percent + "%";
+
+document.getElementById("progressText").innerText =
+completed + " / " + total + " completed";
+
+}
+
+loadProgress();
+
+</script>
+
+</body>
+</html>
